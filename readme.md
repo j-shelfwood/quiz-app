@@ -1,3 +1,1 @@
-<!-- TODOS -->
-- Bijhouden bij welke vraag je bent
-- Randomizen vragen
+This project is fully written with AI as an experiment.
