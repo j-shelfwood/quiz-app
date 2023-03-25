@@ -179,6 +179,7 @@
 					optionsEl.appendChild(button);
 
 					button.addEventListener("click", () => {
+						button.classList.remove("hover:bg-gray-200");
 						if (option === questionData.answer) {
 							score++;
 							button.classList.add("bg-green-500");
