@@ -75,6 +75,17 @@
 				id="progress"
 				class="w-full h-2 mb-6 bg-blue-200 rounded"
 			></div>
+			<div class="text-center mb-6">
+				<span id="progressText" class="text-gray-400 text-sm"></span>
+			</div>
+			<div class="text-center mb-6">
+				<span class="ml-6"
+					>Correct: <span id="correctCounter">0</span></span
+				>
+				<span class="ml-6"
+					>Incorrect: <span id="incorrectCounter">0</span></span
+				>
+			</div>
 			<div id="questionContainer" class="text-center">
 				<h2 id="question" class="text-2xl mb-6"></h2>
 				<div id="options" class="space-y-4"></div>
@@ -110,11 +121,10 @@
 
 		<script>
 			let quizData;
-
+			const progressText = document.getElementById("progressText");
 			let currentQuestion = 0;
 			let score = 0;
 			let userAnswers = [];
-
 			const questionEl = document.getElementById("question");
 			const optionsEl = document.getElementById("options");
 			const nextBtn = document.getElementById("nextBtn");
@@ -127,6 +137,12 @@
 			const quizNameEl = document.getElementById("quizName");
 			const jsonInputEl = document.getElementById("jsonInput");
 			const startBtn = document.getElementById("startBtn");
+			let correctCounter = 0;
+			let incorrectCounter = 0;
+			const correctCounterEl = document.getElementById("correctCounter");
+			const incorrectCounterEl =
+				document.getElementById("incorrectCounter");
+
 			// Add previously added quizzes to the dropdown menu
 			function populateQuizSelect() {
 				const quizSelect = document.getElementById("quizSelect");
@@ -221,18 +237,22 @@
 					button.addEventListener("click", () => {
 						if (answerSelected) return;
 						answerSelected = true;
-						userAnswers[currentQuestion] = option;
 						button.classList.remove("hover:bg-gray-200");
 						if (option === questionData.answer) {
 							score++;
+							correctCounter++;
+							correctCounterEl.textContent = correctCounter;
 							button.classList.add("bg-green-500");
 						} else {
+							incorrectCounter++;
+							incorrectCounterEl.textContent = incorrectCounter;
 							button.classList.add("bg-red-500");
 						}
 						setTimeout(() => nextQuestion(), 3000);
 					});
 				});
 				updateProgressBar();
+				updateProgressText();
 			}
 
 			function nextQuestion() {
@@ -298,6 +318,12 @@
 					tr.appendChild(resultCell);
 					tbody.appendChild(tr);
 				});
+			}
+
+			function updateProgressText() {
+				progressText.textContent = `${currentQuestion + 1} of ${
+					quizData.questions.length
+				}`;
 			}
 
 			nextBtn.addEventListener("click", nextQuestion);
