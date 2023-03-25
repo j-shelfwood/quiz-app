@@ -13,6 +13,7 @@
 				display: none;
 			}
 		</style>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	</head>
 	<body class="bg-gray-100 min-h-screen">
 		<div id="setup" class="container mx-auto px-4 py-10">
@@ -70,7 +71,7 @@
 				Start Quiz
 			</button>
 		</div>
-		<div id="quiz" class="container mx-auto px-4 py-10">
+		<div id="quiz" class="container mx-auto px-4 py-10 hidden">
 			<div
 				id="progress"
 				class="w-full h-2 mb-6 bg-blue-200 rounded"
@@ -79,10 +80,12 @@
 				<span id="progressText" class="text-gray-400 text-sm"></span>
 			</div>
 			<div class="text-center mb-6">
-				<span class="ml-6"
+				<span
+					class="ml-6 text-green-600 bg-green-200 rounded-full px-2 py-1"
 					>Correct: <span id="correctCounter">0</span></span
 				>
-				<span class="ml-6"
+				<span
+					class="ml-6 text-red-600 bg-red-200 rounded-full px-2 py-1"
 					>Incorrect: <span id="incorrectCounter">0</span></span
 				>
 			</div>
@@ -117,9 +120,13 @@
 					Restart
 				</button>
 			</div>
+			<div class="fixed bottom-4 left-1/2 transform -translate-x-1/2">
+				<canvas id="pieChart" width="200" height="200"></canvas>
+			</div>
 		</div>
 
 		<script>
+			let pieChart = {};
 			let quizData;
 			const progressText = document.getElementById("progressText");
 			let currentQuestion = 0;
@@ -134,6 +141,7 @@
 			const scoreEl = document.getElementById("score");
 			const restartBtn = document.getElementById("restartBtn");
 			const setupEl = document.getElementById("setup");
+			const quizEl = document.getElementById("quiz");
 			const quizNameEl = document.getElementById("quizName");
 			const jsonInputEl = document.getElementById("jsonInput");
 			const startBtn = document.getElementById("startBtn");
@@ -187,6 +195,8 @@
 				const selectedQuiz =
 					document.getElementById("quizSelect").value;
 				const quizName = quizNameEl.value.trim();
+				// remove hidden class from quiz
+				quizEl.classList.remove("hidden");
 				const jsonString = jsonInputEl.value.trim();
 
 				if (selectedQuiz) {
@@ -221,7 +231,7 @@
 				questionEl.textContent = questionData.question;
 				optionsEl.innerHTML = "";
 
-				questionData.options.forEach((option) => {
+				questionData.options.forEach((option, index) => {
 					const button = document.createElement("button");
 					button.innerText = option;
 					button.classList.add(
@@ -232,6 +242,7 @@
 						"text-left",
 						"hover:bg-gray-200"
 					);
+					button.setAttribute("data-option-index", index);
 					optionsEl.appendChild(button);
 
 					button.addEventListener("click", () => {
@@ -247,6 +258,7 @@
 							incorrectCounter++;
 							incorrectCounterEl.textContent = incorrectCounter;
 							button.classList.add("bg-red-500");
+							highlightCorrectAnswer(questionData.answer);
 						}
 						setTimeout(() => nextQuestion(), 3000);
 					});
@@ -257,6 +269,8 @@
 
 			function nextQuestion() {
 				if (!answerSelected) return;
+
+				updatePieChart();
 
 				currentQuestion++;
 				if (currentQuestion >= quizData.questions.length) {
@@ -324,6 +338,60 @@
 				progressText.textContent = `${currentQuestion + 1} of ${
 					quizData.questions.length
 				}`;
+			}
+
+			function highlightCorrectAnswer(correctAnswer) {
+				const optionButtons =
+					document.querySelectorAll("#options button");
+				optionButtons.forEach((button) => {
+					if (button.innerText === correctAnswer) {
+						button.classList.add("bg-green-500");
+						// remove the hover class
+						button.classList.remove("hover:bg-gray-200");
+					}
+				});
+			}
+
+			function updatePieChart() {
+				const pieChartEl = document.getElementById("pieChart");
+				const ctx = pieChartEl.getContext("2d");
+				const data = {
+					labels: ["Correct", "Incorrect"],
+					datasets: [
+						{
+							data: [correctCounter, incorrectCounter],
+							backgroundColor: [
+								"rgb(75, 192, 192)",
+								"rgb(255, 99, 132)",
+							],
+							borderColor: [
+								"rgb(75, 192, 192)",
+								"rgb(255, 99, 132)",
+							],
+							borderWidth: 1,
+						},
+					],
+				};
+
+				const options = {
+					plugins: {
+						legend: {
+							position: "bottom",
+						},
+					},
+				};
+
+				if (Object.keys(pieChart).length === 0) {
+					pieChart = new Chart(ctx, {
+						type: "pie",
+						data: data,
+						options: options,
+					});
+				} else {
+					pieChart.data = data;
+					pieChart.options = options;
+					pieChart.update();
+				}
 			}
 
 			nextBtn.addEventListener("click", nextQuestion);
