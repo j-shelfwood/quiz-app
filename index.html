@@ -24,6 +24,14 @@
 			>
 				<option value="">Select a previously added quiz</option>
 			</select>
+			<!-- Add this delete button inside the setup div -->
+			<button
+				id="deleteBtn"
+				class="ml-2 px-4 py-1 bg-red-500 hover:bg-red-700 text-white rounded"
+			>
+				Delete
+			</button>
+
 			<p class="text-xl mb-6">or</p>
 
 			<input
@@ -102,6 +110,22 @@
 				});
 			}
 			populateQuizSelect();
+
+			const deleteBtn = document.getElementById("deleteBtn");
+			deleteBtn.addEventListener("click", () => {
+				const quizSelect = document.getElementById("quizSelect");
+				const selectedQuiz = quizSelect.value;
+
+				if (!selectedQuiz) {
+					alert("Please select a quiz to delete.");
+					return;
+				}
+
+				if (confirm("Are you sure you want to delete this quiz?")) {
+					localStorage.removeItem(selectedQuiz);
+					quizSelect.remove(quizSelect.selectedIndex);
+				}
+			});
 
 			// Rest of the script remains the same until the startQuiz function
 
