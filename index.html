@@ -88,6 +88,17 @@
 			<div id="result" class="text-center hide">
 				<h2 class="text-2xl mb-6">Your score:</h2>
 				<p id="score" class="text-xl mb-6"></p>
+				<table id="summary" class="w-full text-left mb-6">
+					<thead>
+						<tr class="bg-gray-200">
+							<th class="px-4 py-2">Question</th>
+							<th class="px-4 py-2">Your Answer</th>
+							<th class="px-4 py-2">Correct Answer</th>
+							<th class="px-4 py-2">Result</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
 				<button
 					id="restartBtn"
 					class="px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
@@ -102,6 +113,7 @@
 
 			let currentQuestion = 0;
 			let score = 0;
+			let userAnswers = [];
 
 			const questionEl = document.getElementById("question");
 			const optionsEl = document.getElementById("options");
@@ -209,6 +221,7 @@
 					button.addEventListener("click", () => {
 						if (answerSelected) return;
 						answerSelected = true;
+						userAnswers[currentQuestion] = option;
 						button.classList.remove("hover:bg-gray-200");
 						if (option === questionData.answer) {
 							score++;
@@ -237,6 +250,7 @@
 				questionContainer.classList.add("hide");
 				resultEl.classList.remove("hide");
 				scoreEl.textContent = `${score} / ${quizData.questions.length}`;
+				showSummary();
 			}
 
 			function restartQuiz() {
@@ -252,6 +266,38 @@
 				const progress =
 					(currentQuestion / quizData.questions.length) * 100;
 				progressBar.style.width = progress + "%";
+			}
+
+			// Add a new function to display the summary table
+			function showSummary() {
+				const summaryTable = document.getElementById("summary");
+				const tbody = summaryTable.querySelector("tbody");
+				tbody.innerHTML = "";
+
+				quizData.questions.forEach((question, index) => {
+					const tr = document.createElement("tr");
+					const questionCell = document.createElement("td");
+					questionCell.textContent = question.question;
+					const userAnswerCell = document.createElement("td");
+					userAnswerCell.textContent = userAnswers[index];
+					const correctAnswerCell = document.createElement("td");
+					correctAnswerCell.textContent = question.answer;
+					const resultCell = document.createElement("td");
+
+					if (userAnswers[index] === question.answer) {
+						resultCell.textContent = "Correct";
+						resultCell.classList.add("text-green-500");
+					} else {
+						resultCell.textContent = "Incorrect";
+						resultCell.classList.add("text-red-500");
+					}
+
+					tr.appendChild(questionCell);
+					tr.appendChild(userAnswerCell);
+					tr.appendChild(correctAnswerCell);
+					tr.appendChild(resultCell);
+					tbody.appendChild(tr);
+				});
 			}
 
 			nextBtn.addEventListener("click", nextQuestion);
