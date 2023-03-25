@@ -15,6 +15,27 @@
 		</style>
 	</head>
 	<body class="bg-gray-100 min-h-screen">
+		<div id="setup" class="container mx-auto px-4 py-10 text-center">
+			<h2 class="text-2xl mb-6">Enter the quiz JSON and name:</h2>
+			<input
+				type="text"
+				id="quizName"
+				class="w-full mb-4 p-2 border border-gray-300 rounded"
+				placeholder="Enter quiz name"
+			/>
+			<textarea
+				id="jsonInput"
+				class="w-full mb-6 p-2 border border-gray-300 rounded"
+				rows="10"
+				placeholder="Paste quiz JSON here"
+			></textarea>
+			<button
+				id="startBtn"
+				class="px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
+			>
+				Start Quiz
+			</button>
+		</div>
 		<div id="quiz" class="container mx-auto px-4 py-10">
 			<div id="questionContainer" class="text-center">
 				<h2 id="question" class="text-2xl mb-6"></h2>
@@ -41,16 +62,6 @@
 		<script>
 			let quizData;
 
-			async function fetchData() {
-				const response = await fetch("questions.json");
-				quizData = await response.json();
-				loadQuestion();
-			}
-
-			// ...
-
-			fetchData();
-
 			let currentQuestion = 0;
 			let score = 0;
 
@@ -62,6 +73,34 @@
 				document.getElementById("questionContainer");
 			const scoreEl = document.getElementById("score");
 			const restartBtn = document.getElementById("restartBtn");
+			const setupEl = document.getElementById("setup");
+			const quizNameEl = document.getElementById("quizName");
+			const jsonInputEl = document.getElementById("jsonInput");
+			const startBtn = document.getElementById("startBtn");
+
+			function startQuiz() {
+				const quizName = quizNameEl.value.trim();
+				const jsonString = jsonInputEl.value.trim();
+
+				if (!quizName || !jsonString) {
+					alert("Please enter a quiz name and paste quiz JSON.");
+					return;
+				}
+
+				try {
+					quizData = JSON.parse(jsonString);
+					localStorage.setItem(quizName, jsonString);
+				} catch (error) {
+					alert("Invalid JSON format. Please check your input.");
+					return;
+				}
+
+				setupEl.classList.add("hide");
+				quiz.classList.remove("hide");
+				loadQuestion();
+			}
+
+			startBtn.addEventListener("click", startQuiz);
 
 			function loadQuestion() {
 				const questionData = quizData.questions[currentQuestion];
@@ -113,7 +152,7 @@
 				questionContainer.classList.remove("hide");
 				score = 0;
 				currentQuestion = 0;
-				loadQuestion();
+				startQuiz();
 			}
 
 			loadQuestion();
