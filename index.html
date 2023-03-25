@@ -186,8 +186,9 @@
 			}
 
 			startBtn.addEventListener("click", startQuiz);
-
+			let answerSelected = false;
 			function loadQuestion() {
+				answerSelected = false;
 				const questionData = quizData.questions[currentQuestion];
 				questionEl.textContent = questionData.question;
 				optionsEl.innerHTML = "";
@@ -206,6 +207,8 @@
 					optionsEl.appendChild(button);
 
 					button.addEventListener("click", () => {
+						if (answerSelected) return;
+						answerSelected = true;
 						button.classList.remove("hover:bg-gray-200");
 						if (option === questionData.answer) {
 							score++;
@@ -220,6 +223,8 @@
 			}
 
 			function nextQuestion() {
+				if (!answerSelected) return;
+
 				currentQuestion++;
 				if (currentQuestion >= quizData.questions.length) {
 					showResults();
