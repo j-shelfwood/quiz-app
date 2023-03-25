@@ -271,6 +271,7 @@
 							correctCounterEl.textContent = correctCounter;
 							button.classList.add("bg-green-500");
 						} else {
+							highlightCorrectAnswer(questionData.answer);
 							incorrectCounter++;
 							incorrectCounterEl.textContent = incorrectCounter;
 							button.classList.add("bg-red-500");
