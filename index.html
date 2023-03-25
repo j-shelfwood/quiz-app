@@ -16,6 +16,22 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	</head>
 	<body class="bg-gray-100 min-h-screen">
+		<audio
+			src="achterlijk.mp3"
+			preload="auto"
+			class="hidden wrongAnswerAudio"
+		></audio>
+		<audio
+			src="watweetjijernouvan.mp3"
+			preload="auto"
+			class="hidden wrongAnswerAudio"
+		></audio>
+		<audio
+			src="godgodverredomme.mp3"
+			preload="auto"
+			class="hidden wrongAnswerAudio"
+		></audio>
+
 		<div id="setup" class="container mx-auto px-4 py-10">
 			<h2 class="text-2xl mb-6">Enter the quiz JSON and name:</h2>
 			<div class="mb-4">
@@ -258,7 +274,16 @@
 							incorrectCounter++;
 							incorrectCounterEl.textContent = incorrectCounter;
 							button.classList.add("bg-red-500");
-							highlightCorrectAnswer(questionData.answer);
+							// Play a random sound for a wrong answer
+							const wrongAnswerAudios =
+								document.querySelectorAll(".wrongAnswerAudio");
+							const randomAudioIndex = Math.floor(
+								Math.random() * wrongAnswerAudios.length
+							);
+							const randomWrongAnswerAudio =
+								wrongAnswerAudios[randomAudioIndex];
+							randomWrongAnswerAudio.currentTime = 0;
+							randomWrongAnswerAudio.play();
 						}
 						setTimeout(() => nextQuestion(), 3000);
 					});
