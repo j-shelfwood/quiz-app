@@ -97,7 +97,7 @@
 
 				setupEl.classList.add("hide");
 				quiz.classList.remove("hide");
-				loadQuestion();
+				loadQuestion(); // Move the loadQuestion() call here
 			}
 
 			startBtn.addEventListener("click", startQuiz);
@@ -114,7 +114,7 @@
 						"w-full",
 						"bg-white",
 						"rounded",
-						"py-2",
+						"p-2",
 						"text-left",
 						"hover:bg-gray-200"
 					);
@@ -154,8 +154,6 @@
 				currentQuestion = 0;
 				startQuiz();
 			}
-
-			loadQuestion();
 
 			nextBtn.addEventListener("click", nextQuestion);
 			restartBtn.addEventListener("click", restartQuiz);
