@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Quiz</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+			rel="stylesheet"
+		/>
+		<style>
+			.hide {
+				display: none;
+			}
+		</style>
+	</head>
+	<body class="bg-gray-100 min-h-screen">
+		<div id="quiz" class="container mx-auto px-4 py-10">
+			<div id="questionContainer" class="text-center">
+				<h2 id="question" class="text-2xl mb-6"></h2>
+				<div id="options" class="space-y-4"></div>
+				<button
+					id="nextBtn"
+					class="mt-6 px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
+				>
+					Next
+				</button>
+			</div>
+			<div id="result" class="text-center hide">
+				<h2 class="text-2xl mb-6">Your score:</h2>
+				<p id="score" class="text-xl mb-6"></p>
+				<button
+					id="restartBtn"
+					class="px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
+				>
+					Restart
+				</button>
+			</div>
+		</div>
+
+		<script>
+			let quizData;
+
+			async function fetchData() {
+				const response = await fetch("questions.json");
+				quizData = await response.json();
+				loadQuestion();
+			}
+
+			// ...
+
+			fetchData();
+
+			let currentQuestion = 0;
+			let score = 0;
+
+			const questionEl = document.getElementById("question");
+			const optionsEl = document.getElementById("options");
+			const nextBtn = document.getElementById("nextBtn");
+			const resultEl = document.getElementById("result");
+			const questionContainer =
+				document.getElementById("questionContainer");
+			const scoreEl = document.getElementById("score");
+			const restartBtn = document.getElementById("restartBtn");
+
+			function loadQuestion() {
+				const questionData = quizData.questions[currentQuestion];
+				questionEl.textContent = questionData.question;
+				optionsEl.innerHTML = "";
+
+				questionData.options.forEach((option) => {
+					const button = document.createElement("button");
+					button.innerText = option;
+					button.classList.add(
+						"w-full",
+						"bg-white",
+						"rounded",
+						"py-2",
+						"text-left",
+						"hover:bg-gray-200"
+					);
+					optionsEl.appendChild(button);
+
+					button.addEventListener("click", () => {
+						if (option === questionData.answer) {
+							score++;
+							button.classList.add("bg-green-500");
+						} else {
+							button.classList.add("bg-red-500");
+						}
+						setTimeout(() => nextQuestion(), 1000);
+					});
+				});
+			}
+
+			function nextQuestion() {
+				currentQuestion++;
+				if (currentQuestion >= quizData.questions.length) {
+					showResults();
+				} else {
+					loadQuestion();
+				}
+			}
+
+			function showResults() {
+				questionContainer.classList.add("hide");
+				resultEl.classList.remove("hide");
+				scoreEl.textContent = `${score} / ${quizData.questions.length}`;
+			}
+
+			function restartQuiz() {
+				resultEl.classList.add("hide");
+				questionContainer.classList.remove("hide");
+				score = 0;
+				currentQuestion = 0;
+				loadQuestion();
+			}
+
+			loadQuestion();
+
+			nextBtn.addEventListener("click", nextQuestion);
+			restartBtn.addEventListener("click", restartQuiz);
+		</script>
+	</body>
+</html>

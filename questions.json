@@ -1,0 +1,155 @@
+{
+	"questions": [
+		{
+			"question": "Wat is de functie van alveoli?",
+			"options": [
+				"a. Zuurstof opslag",
+				"b. Verbeteren van de diffusie",
+				"c. Filtreren van de ingeademde lucht",
+				"d. Reguleren van de bloedcirculatie"
+			],
+			"answer": "b. Verbeteren van de diffusie"
+		},
+		{
+			"question": "Wat is de rol van surfactant in de alveoli?",
+			"options": [
+				"a. Elasticiteit vergroten",
+				"b. Gasuitwisseling bevorderen",
+				"c. Oppervlaktespanning verminderen",
+				"d. Watermoleculen binden"
+			],
+			"answer": "c. Oppervlaktespanning verminderen"
+		},
+		{
+			"question": "Waar wordt surfactant geproduceerd?",
+			"options": [
+				"a. Type 1 pneumocyten",
+				"b. Type 2 pneumocyten",
+				"c. Alveolaire macrofagen",
+				"d. Bronchiale epitheelcellen"
+			],
+			"answer": "b. Type 2 pneumocyten"
+		},
+		{
+			"question": "Wat is inspiratoire stridor?",
+			"options": [
+				"a. Problemen bij inademen door belemmering aanzuiging lucht",
+				"b. Problemen bij uitademen",
+				"c. Piepende ademhaling",
+				"d. Hoesten"
+			],
+			"answer": "a. Problemen bij inademen door belemmering aanzuiging lucht"
+		},
+		{
+			"question": "Wat is expiratoir piepen?",
+			"options": [
+				"a. Problemen bij inademen",
+				"b. Problemen bij uitademen",
+				"c. Piepende ademhaling",
+				"d. Hoesten"
+			],
+			"answer": "b. Problemen bij uitademen"
+		},
+		{
+			"question": "Wat zijn enkele oorzaken van expiratoir piepen?",
+			"options": [
+				"a. Astma",
+				"b. Bronchitis",
+				"c. Longontsteking",
+				"d. A en B",
+				"e. A en C"
+			],
+			"answer": "d. A en B"
+		},
+		{
+			"question": "Wat is de normale ademminuutvolume (AMV)?",
+			"options": [
+				"a. 4 liter",
+				"b. 6 liter",
+				"c. 8 liter",
+				"d. 10 liter"
+			],
+			"answer": "c. 8 liter"
+		},
+		{
+			"question": "Wat is de anatomisch dode ruimte?",
+			"options": [
+				"a. Deel van de ventilatie dat niet aan gasuitwisseling deelneemt",
+				"b. Deel van de longen zonder perfusie",
+				"c. Deel van de longen waar geen ventilatie plaatsvindt",
+				"d. Deel van de longen waar gasuitwisseling plaatsvindt"
+			],
+			"answer": "a. Deel van de ventilatie dat niet aan gasuitwisseling deelneemt"
+		},
+		{
+			"question": "Wat is de fysiologische dode ruimte?",
+			"options": [
+				"a. Deel van de ventilatie dat niet aan gasuitwisseling deelneemt",
+				"b. Deel van de longen zonder perfusie maar met ventilatie",
+				"c. Deel van de longen waar geen ventilatie plaatsvindt",
+				"d. Deel van de longen waar gasuitwisseling plaatsvindt"
+			],
+			"answer": "b. Deel van de longen zonder perfusie maar met ventilatie"
+		},
+		{
+			"question": "Wat gebeurt er met de FRC bij zwangere vrouwen?",
+			"options": [
+				"a. Neemt toe",
+				"b. Neemt af",
+				"c. Blijft gelijk",
+				"d. Wisselt per individu"
+			],
+			"answer": "b. Neemt af"
+		},
+		{
+			"question": "Wat is de alveolaire ventilatiesnelheid als AMV = 6000 ml/minuut, ademfrequentie = 12/minuut en anatomisch dode ruimte = 150 ml?",
+			"options": [
+				"a. 3000 ml/minuut",
+				"b. 4200 ml/minuut",
+				"c. 5400 ml/minuut",
+				"d. 6000 ml/minuut"
+			],
+			"answer": "b. 4200 ml/minuut"
+		},
+		{
+			"question": "Wat betekent hoge compliantie in de longen?",
+			"options": [
+				"a. Lucht gaat makkelijker de longen in",
+				"b. Lucht gaat moeilijk de longen in maar makkelijk uit",
+				"c. Longen zijn stijf en moeilijk te vullen",
+				"d. Longen zijn elastisch en kunnen snel samentrekken"
+			],
+			"answer": "a. Lucht gaat makkelijker de longen in"
+		},
+		{
+			"question": "Bij welke longziekte is er een lage compliantie?",
+			"options": [
+				"a. Longfibrose",
+				"b. Longemfyseem",
+				"c. Astma",
+				"d. Bronchitis"
+			],
+			"answer": "a. Longfibrose"
+		},
+		{
+			"question": "Bij welke longziekte is er een hoge compliantie?",
+			"options": [
+				"a. Longfibrose",
+				"b. Longemfyseem",
+				"c. Astma",
+				"d. Bronchitis"
+			],
+			"answer": "b. Longemfyseem"
+		},
+		{
+			"question": "Wat gebeurt er bij een pneumothorax?",
+			"options": [
+				"a. Longen klappen in",
+				"b. Thoraxwand klapt in",
+				"c. Luchtwegen raken geblokkeerd",
+				"d. Longen en thorax zijn beiden ontspannen"
+			],
+			"answer": "a. Longen klappen in"
+		}
+	]
+}
