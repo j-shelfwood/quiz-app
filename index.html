@@ -15,46 +15,66 @@
 		</style>
 	</head>
 	<body class="bg-gray-100 min-h-screen">
-		<div id="setup" class="container mx-auto px-4 py-10 text-center">
+		<div id="setup" class="container mx-auto px-4 py-10">
 			<h2 class="text-2xl mb-6">Enter the quiz JSON and name:</h2>
-			<!-- Add this dropdown menu inside the setup div -->
-			<select
-				id="quizSelect"
-				class="w-full mb-4 p-2 border border-gray-300 rounded"
-			>
-				<option value="">Select a previously added quiz</option>
-			</select>
-			<!-- Add this delete button inside the setup div -->
-			<button
-				id="deleteBtn"
-				class="ml-2 px-4 py-1 bg-red-500 hover:bg-red-700 text-white rounded"
-			>
-				Delete
-			</button>
-
+			<div class="mb-4">
+				<label
+					for="quizSelect"
+					class="block text-sm font-medium text-gray-700"
+					>Select a previously added quiz</label
+				>
+				<select
+					id="quizSelect"
+					class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+				>
+					<option value="">Select a quiz</option>
+				</select>
+				<button
+					id="deleteBtn"
+					class="mt-2 px-4 py-1 bg-red-500 hover:bg-red-700 text-white rounded"
+				>
+					Delete
+				</button>
+			</div>
 			<p class="text-xl mb-6">or</p>
-
-			<input
-				type="text"
-				id="quizName"
-				class="w-full mb-4 p-2 border border-gray-300 rounded"
-				placeholder="Enter quiz name"
-			/>
-			<textarea
-				id="jsonInput"
-				class="w-full mb-6 p-2 border border-gray-300 rounded"
-				rows="10"
-				placeholder="Paste quiz JSON here"
-			></textarea>
-
+			<div class="mb-4">
+				<label
+					for="quizName"
+					class="block text-sm font-medium text-gray-700"
+					>Enter quiz name</label
+				>
+				<input
+					type="text"
+					id="quizName"
+					class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+					placeholder="Enter quiz name"
+				/>
+			</div>
+			<div class="mb-4">
+				<label
+					for="jsonInput"
+					class="block text-sm font-medium text-gray-700"
+					>Paste quiz JSON here</label
+				>
+				<textarea
+					id="jsonInput"
+					class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+					rows="10"
+					placeholder="Paste quiz JSON here"
+				></textarea>
+			</div>
 			<button
 				id="startBtn"
-				class="px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
+				class="w-full px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
 			>
 				Start Quiz
 			</button>
 		</div>
 		<div id="quiz" class="container mx-auto px-4 py-10">
+			<div
+				id="progress"
+				class="w-full h-2 mb-6 bg-blue-200 rounded"
+			></div>
 			<div id="questionContainer" class="text-center">
 				<h2 id="question" class="text-2xl mb-6"></h2>
 				<div id="options" class="space-y-4"></div>
@@ -127,7 +147,13 @@
 				}
 			});
 
-			// Rest of the script remains the same until the startQuiz function
+			function shuffleArray(array) {
+				for (let i = array.length - 1; i > 0; i--) {
+					const j = Math.floor(Math.random() * (i + 1));
+					[array[i], array[j]] = [array[j], array[i]];
+				}
+				return array;
+			}
 
 			function startQuiz() {
 				const selectedQuiz =
@@ -155,6 +181,7 @@
 
 				setupEl.classList.add("hide");
 				quiz.classList.remove("hide");
+				quizData.questions = shuffleArray(quizData.questions);
 				loadQuestion();
 			}
 
@@ -189,6 +216,7 @@
 						setTimeout(() => nextQuestion(), 3000);
 					});
 				});
+				updateProgressBar();
 			}
 
 			function nextQuestion() {
@@ -212,6 +240,13 @@
 				score = 0;
 				currentQuestion = 0;
 				startQuiz();
+			}
+
+			function updateProgressBar() {
+				const progressBar = document.getElementById("progress");
+				const progress =
+					(currentQuestion / quizData.questions.length) * 100;
+				progressBar.style.width = progress + "%";
 			}
 
 			nextBtn.addEventListener("click", nextQuestion);
