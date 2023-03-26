@@ -15,6 +15,7 @@
 				display: none;
 			}
 		</style>
+		<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	</head>
 	<body class="bg-gray-100 min-h-screen">
@@ -256,6 +257,7 @@
 						if (option === questionData.answer) {
 							score++;
 							correctCounter++;
+							showConfetti();
 							correctCounterEl.textContent = correctCounter;
 							button.classList.add("bg-green-500");
 						} else {
@@ -396,6 +398,47 @@
 					pieChart.options = options;
 					pieChart.update();
 				}
+			}
+
+			function showConfetti() {
+				const duration = 2000;
+				const animationEnd = Date.now() + duration;
+				const defaults = {
+					startVelocity: 60,
+					spread: 360,
+					ticks: 60,
+					zIndex: 0,
+				};
+
+				function randomInRange(min, max) {
+					return Math.random() * (max - min) + min;
+				}
+
+				const interval = setInterval(function () {
+					const timeLeft = animationEnd - Date.now();
+
+					if (timeLeft <= 0) {
+						return clearInterval(interval);
+					}
+
+					const particleCount = 100 * (timeLeft / duration);
+					// Bottom left corner
+					confetti({
+						...defaults,
+						origin: { x: 0, y: 1 },
+						particleCount,
+						angle: randomInRange(80, 100),
+						colors: ["#00ff00", "#ff00ff", "#00aaff", "#ff6b00"],
+					});
+					// Bottom right corner
+					confetti({
+						...defaults,
+						origin: { x: 1, y: 1 },
+						particleCount,
+						angle: randomInRange(260, 280),
+						colors: ["#00ff00", "#ff00ff", "#00aaff", "#ff6b00"],
+					});
+				}, 250);
 			}
 
 			nextBtn.addEventListener("click", nextQuestion);
